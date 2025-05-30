@@ -20,9 +20,11 @@ export default class StoryListView {
         <p>${story.description}</p>
       `;
 
+      // Tombol Hapus
       const deleteBtn = document.createElement('button');
       deleteBtn.innerText = 'Hapus';
       deleteBtn.className = 'delete-button';
+      deleteBtn.setAttribute('aria-label', `Hapus cerita dari ${story.name}`);
       deleteBtn.addEventListener('click', () => {
         if (confirm(`Yakin ingin menghapus cerita dari ${story.name}?`)) {
           onDelete(story.id);

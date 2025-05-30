@@ -1,3 +1,6 @@
+import { precacheAndRoute } from 'workbox-precaching';
+precacheAndRoute(self.__WB_MANIFEST);
+
 self.addEventListener('install', (event) => {
   console.log('[ServiceWorker] Installed');
   self.skipWaiting();
@@ -11,10 +14,10 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(event.request));
 });
+
 self.addEventListener('notificationclick', function (event) {
   event.notification.close();
   event.waitUntil(
     clients.openWindow('/')
   );
 });
-
