@@ -1,0 +1,33 @@
+{
+  "name": "jualan-produk-spa-full",
+  "version": "1.0.0",
+  "description": "SPA jualan produk lengkap dengan kamera dan peta",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "format": "prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "idb": "^8.0.3",
+    "leaflet": "^1.9.3",
+    "sweetalert2": "^11.21.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "prettier": "^3.2.5",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.99.6",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1",
+    "workbox-webpack-plugin": "^7.3.0"
+  }
+}
