@@ -8,14 +8,14 @@ export default function LoginPresenter(container) {
     try {
       const res = await login({ email, password });
 
-      // ✅ Cek kalau error = true ATAU token tidak ada
-      if (res.error || !res.loginResult?.token) {
-        return alert('Login gagal: ' + (res.message || 'Email/password salah'));
+      //Tangani kemungkinan "res.error === false", tapi token tidak valid
+      const token = res?.loginResult?.token;
+
+      if (!token) {
+        return alert('Login gagal: ' + (res.message || 'Token tidak valid'));
       }
 
-      const token = res.loginResult.token;
       localStorage.setItem('token', token);
-
       alert('Login berhasil!');
       window.location.hash = '#/';
     } catch (err) {
