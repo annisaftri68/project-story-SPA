@@ -15,14 +15,23 @@ const defaultRoute = '#/';
 const app = document.getElementById('app');
 
 async function loadRoute() {
-  // Stop camera jika ada
+  // Stop camera jika masih aktif
   const video = document.querySelector('video');
   if (video && video._streamRef) {
     const { default: stopCamera } = await import('./utils/stopCamera.js');
     stopCamera(video);
   }
 
-  const hash = window.location.hash || defaultRoute;
+  let hash = window.location.hash || defaultRoute;
+
+  // Validasi token: jika tidak ada token & bukan halaman login/register => redirect
+  const token = localStorage.getItem('token');
+  const isPublicPage = ['#/login', '#/register'].includes(hash);
+  if (!token && !isPublicPage) {
+    hash = '#/login';
+    window.location.hash = hash;
+  }
+
   const presenter = routes[hash] || ((container) => new NotFoundView().render(container));
   app.innerHTML = '';
   presenter(app);
@@ -30,9 +39,7 @@ async function loadRoute() {
 
 if ('startViewTransition' in document) {
   window.addEventListener('hashchange', () => {
-    document.startViewTransition(() => {
-      loadRoute();
-    });
+    document.startViewTransition(loadRoute);
   });
 } else {
   window.addEventListener('hashchange', loadRoute);

@@ -4,8 +4,15 @@ import { idbPut, idbGetAll, idbDelete } from '../models/idb.js';
 import sleep from '../utils/sleep.js';
 
 export default async function HomePresenter(container) {
-  const view = new StoryListView(container);
+  // 🔒 Cek token sebelum render
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Silakan login terlebih dahulu.');
+    window.location.hash = '#/login';
+    return;
+  }
 
+  const view = new StoryListView(container);
   view.showLoading();
   await sleep(); // Simulasi delay
 
