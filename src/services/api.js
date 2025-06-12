@@ -11,7 +11,7 @@ export async function login({ email, password }) {
   return await res.json();
 }
 
-// ✅ Register
+// Register
 export async function register({ name, email, password }) {
   const res = await fetch(`${BASE_URL}/register`, {
     method: 'POST',
@@ -22,7 +22,7 @@ export async function register({ name, email, password }) {
   return await res.json();
 }
 
-// ✅ Ambil daftar story (produk)
+// Ambil daftar story (produk)
 export async function fetchStories() {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('Token tidak ditemukan. Silakan login.');
@@ -46,7 +46,7 @@ export async function fetchStories() {
   return data;
 }
 
-// ✅ Tambah cerita
+// Tambah cerita
 export async function addStory(data) {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('Token tidak ditemukan. Silakan login.');

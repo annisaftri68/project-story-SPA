@@ -4,18 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#007bff" />
+
+    <!-- 🔗 PWA dan Ikon -->
     <link rel="manifest" href="manifest.json" />
-    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="icon" href="icons/icon-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="icons/icon-512x512.png" />
+
     <title>Galeri Cerita</title>
 
-    <!-- Leaflet Map -->
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   </head>
   <body>
-    <!-- Skip Link untuk Aksesibilitas -->
+    <!-- Aksesibilitas -->
     <a href="#main-content" class="skip-link">Langsung ke Konten</a>
 
-    <!-- Navigasi Utama -->
+    <!-- Navigasi -->
     <nav>
       <a href="#/">Beranda</a>
       <a href="#/add">Tambah Cerita</a>
@@ -23,20 +27,18 @@
       <a href="#/register">Daftar</a>
     </nav>
 
-    <!-- Konten Utama -->
+    <!-- Konten SPA -->
     <main id="main-content" tabindex="-1">
       <div id="app" role="main"></div>
     </main>
 
-    <!-- Script -->
-    <script type="module" src="index.js"></script>
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <!-- Skip to Content Fix -->
+    <!-- Skip Link Behavior -->
     <script>
       const skipLink = document.querySelector('.skip-link');
       const mainContent = document.querySelector('#main-content');
-
       skipLink.addEventListener('click', function (event) {
         event.preventDefault();
         skipLink.blur();
