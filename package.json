@@ -1,0 +1,32 @@
+{
+  "name": "galeri-cerita",
+  "version": "1.0.0",
+  "description": "Aplikasi SPA Galeri Cerita",
+  "main": "src/index.js",
+  "homepage": "https://annisaftri68.github.io/project-story-SPA",
+  "scripts": {
+    "start-dev": "webpack serve --mode development",
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "idb": "^7.0.1",
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.8.1",
+    "gh-pages": "^6.3.0",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.99.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.0",
+    "workbox-webpack-plugin": "^7.0.0"
+  }
+}
