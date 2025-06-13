@@ -1,6 +1,6 @@
 const BASE_URL = 'https://story-api.dicoding.dev/v1';
 
-// ✅ Login
+// Login
 export async function login({ email, password }) {
   const res = await fetch(`${BASE_URL}/login`, {
     method: 'POST',
