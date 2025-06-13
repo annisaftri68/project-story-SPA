@@ -7,22 +7,15 @@ export default function LoginPresenter(container) {
   view.render(container, async ({ email, password }) => {
     try {
       const res = await login({ email, password });
-      console.log('DEBUG LOGIN:', res); // bantu debug
+      console.log('DEBUG LOGIN:', res); // Tambahkan log ini saat testing
 
-      // Validasi error benar
-      if (res.error === true) {
-        return alert('Login gagal: ' + (res.message || 'Email/password salah'));
+      if (res?.error === false && res?.loginResult?.token) {
+        localStorage.setItem('token', res.loginResult.token);
+        alert('Login berhasil!');
+        window.location.hash = '#/';
+      } else {
+        alert('Login gagal: ' + (res.message || 'Email/password salah'));
       }
-
-      // Validasi token benar-benar ada
-      const token = res?.loginResult?.token;
-      if (!token) {
-        return alert('Login gagal: token tidak ditemukan');
-      }
-
-      localStorage.setItem('token', token);
-      alert('Login berhasil!');
-      window.location.hash = '#/';
     } catch (err) {
       alert('Terjadi kesalahan saat login: ' + err.message);
     }
