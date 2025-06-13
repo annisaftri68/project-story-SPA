@@ -15,14 +15,25 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   module: {
     rules: [
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.js$/, exclude: /node_modules/, use: 'babel-loader' },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.js$/i,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    // ✅ Sisipkan HTML dan inject <script> otomatis
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      inject: 'body',
+    }),
 
-    // ✅ Salin ikon dan manifest ke dist/
+    // ✅ Copy file statis: manifest dan icons
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/manifest.json', to: 'manifest.json' },
@@ -30,7 +41,7 @@ module.exports = {
       ],
     }),
 
-    // ✅ Inject service worker saat production
+    // ✅ Tambahkan SW hanya saat production
     ...(isProduction
       ? [
           new WorkboxPlugin.InjectManifest({
@@ -41,7 +52,9 @@ module.exports = {
       : []),
   ],
   devServer: {
-    static: './dist',
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
     port: 3000,
     open: true,
     hot: true,
