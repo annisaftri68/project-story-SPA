@@ -1,3 +1,5 @@
+import { askNotificationPermission } from '../utils/pushNotif.js';
+
 export default class HomeView {
   constructor(container) {
     this.container = container;
@@ -7,6 +9,11 @@ export default class HomeView {
       <div id="stories-container" class="story-list"></div>
       <div id="product-map"></div>
     `;
+
+    // Tambahkan event listener untuk tombol notifikasi
+    document.getElementById('subscribeNotifBtn')?.addEventListener('click', () => {
+      askNotificationPermission();
+    });
   }
 
   showLoading() {

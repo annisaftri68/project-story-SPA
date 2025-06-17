@@ -1,4 +1,4 @@
-export async function requestPermission() {
+export async function askNotificationPermission() {
   if (!('Notification' in window)) {
     alert('Browser tidak mendukung notifikasi.');
     return;
@@ -6,15 +6,13 @@ export async function requestPermission() {
 
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') {
-    alert('Izin notifikasi ditolak.');
+    alert('Izin notifikasi tidak diberikan.');
     return;
   }
 
   const registration = await navigator.serviceWorker.ready;
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY' // ganti dengan VAPID key dari Firebase/Web Push
+  registration.showNotification('Notifikasi diaktifkan!', {
+    body: 'Terima kasih telah mengaktifkan notifikasi.',
+    icon: './icons/icon-192x192.png',
   });
-
-  console.log('Subscribed to Push:', JSON.stringify(subscription));
 }

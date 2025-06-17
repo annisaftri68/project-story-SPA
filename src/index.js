@@ -1,6 +1,18 @@
 import './styles/main.css';
 import './router';
 import './register-sw.js';
+import { askNotificationPermission } from './utils/notification.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (Notification.permission === 'default') {
+    // Biarkan user klik manual
+  } else if (Notification.permission === 'granted') {
+    // Sudah granted sebelumnya, kirim notifikasi sambutan
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification('Selamat datang kembali!');
+    });
+  }
+});
 
 // Skip to content
 const skipLink = document.createElement('a');

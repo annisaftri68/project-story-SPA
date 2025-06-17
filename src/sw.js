@@ -13,3 +13,12 @@ self.addEventListener('push', event => {
   };
   event.waitUntil(self.registration.showNotification(title, options));
 });
+self.addEventListener('push', event => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'Notifikasi Baru';
+  const options = {
+    body: data.body || 'Ada update baru di Galeri Cerita!',
+    icon: './icons/icon-192x192.png',
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
