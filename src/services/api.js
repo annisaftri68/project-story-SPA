@@ -22,7 +22,7 @@ export async function register({ name, email, password }) {
   return await res.json();
 }
 
-// Ambil daftar story (produk)
+// Ambil daftar story
 export async function fetchStories() {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('Token tidak ditemukan. Silakan login.');
@@ -47,15 +47,15 @@ export async function fetchStories() {
 }
 
 // Tambah cerita
-export async function addStory(data) {
+export async function addStory({ description, lat, lng, imageBlob }) {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('Token tidak ditemukan. Silakan login.');
 
   const formData = new FormData();
-  formData.append('description', data.description);
-  formData.append('lat', data.lat);
-  formData.append('lon', data.lng);
-  formData.append('photo', data.imageBlob);
+  formData.append('description', description);
+  formData.append('lat', lat);
+  formData.append('lon', lng);
+  formData.append('photo', imageBlob);
 
   const res = await fetch(`${BASE_URL}/stories`, {
     method: 'POST',

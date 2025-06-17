@@ -23,7 +23,7 @@ export default class HomeView {
       const item = document.createElement('div');
       item.className = 'story-item';
       item.innerHTML = `
-        <img src="${story.photoUrl}" alt="${story.description}" />
+        <img src="${story.photoUrl || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${story.description}" />
         <h3>${story.name || 'Pengguna'}</h3>
         <p>${story.description}</p>
       `;

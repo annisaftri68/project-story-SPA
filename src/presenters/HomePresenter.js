@@ -1,6 +1,6 @@
 import StoryListView from '../views/StoryListView.js';
 import { fetchStories } from '../models/StoryModel.js';
-import { idbPut, idbGetAll, idbDelete } from '../models/idb.js';
+import { saveStory as idbPut, getAllStories as idbGetAll, deleteStory as idbDelete } from '../models/idb.js';
 import sleep from '../utils/sleep.js';
 
 export default async function HomePresenter(container) {

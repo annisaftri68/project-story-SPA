@@ -1,32 +1,34 @@
 import pickCoordinates from '../utils/mapPicker';
 
-export default class AddProductForm {
+export default class AddStoryForm {
   render(container, onSubmit) {
     const wrapper = document.createElement('div');
     wrapper.className = 'add-story-form';
 
     const form = document.createElement('form');
+    form.setAttribute('aria-label', 'Form Tambah Cerita');
+
     form.innerHTML = `
       <h2>Tambah Cerita</h2>
 
       <label for="description">Deskripsi:</label>
-      <textarea id="description" name="description" required></textarea>
+      <textarea id="description" name="description" required aria-required="true" aria-label="Deskripsi cerita"></textarea>
 
-      <label>Gambar Cerita (kamera atau pilih file):</label>
+      <label for="imageFile">Gambar Cerita (kamera atau pilih file):</label>
       <div style="margin-bottom:1rem;">
-        <video id="camera" autoplay playsinline style="max-width:100%; display:none;"></video>
-        <button type="button" id="capture">Ambil Foto</button>
-        <input type="file" id="imageFile" accept="image/*" style="margin-top:0.5rem;" />
-        <canvas id="snapshot" class="hidden" style="margin-top:0.5rem;"></canvas>
+        <video id="camera" autoplay playsinline style="max-width:100%; display:none;" aria-label="Preview kamera"></video>
+        <button type="button" id="capture" aria-label="Ambil foto dari kamera">Ambil Foto</button>
+        <input type="file" id="imageFile" accept="image/*" style="margin-top:0.5rem;" aria-label="Unggah gambar dari file" />
+        <canvas id="snapshot" class="hidden" style="margin-top:0.5rem;" aria-hidden="true"></canvas>
         <img id="previewImage" class="hidden" alt="Preview Gambar" style="max-width:100%; margin-top:1rem; border-radius:8px;" />
       </div>
 
-      <label>Lokasi Cerita (klik di peta):</label>
-      <div id="mapPicker" style="height:200px;"></div>
+      <label for="mapPicker">Lokasi Cerita (klik di peta):</label>
+      <div id="mapPicker" style="height:200px;" aria-label="Pilih lokasi di peta"></div>
       <input type="hidden" id="lat" name="lat" />
       <input type="hidden" id="lng" name="lng" />
 
-      <button type="submit" id="submitBtn">Kirim Cerita</button>
+      <button type="submit" id="submitBtn" aria-label="Kirim cerita">Kirim Cerita</button>
     `;
 
     const video = form.querySelector('#camera');
@@ -60,7 +62,6 @@ export default class AddProductForm {
       canvas.toBlob(blob => {
         imageBlob = blob;
 
-        // Tampilkan preview dari canvas
         previewImg.src = canvas.toDataURL('image/jpeg');
         previewImg.classList.remove('hidden');
       }, 'image/jpeg');
@@ -118,6 +119,13 @@ export default class AddProductForm {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Kirim Cerita';
 
+      if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+      }
+    });
+
+    // Pastikan kamera dimatikan saat berpindah halaman
+    window.addEventListener('beforeunload', () => {
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
       }

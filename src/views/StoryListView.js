@@ -1,3 +1,5 @@
+import { saveStory } from '../models/idb.js';
+
 export default class StoryListView {
   constructor(container) {
     this.container = container;
@@ -15,8 +17,8 @@ export default class StoryListView {
       const item = document.createElement('div');
       item.className = 'story-item';
       item.innerHTML = `
-        <img src="${story.photoUrl}" alt="${story.name}" />
-        <h3>${story.name}</h3>
+        <img src="${story.photoUrl || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${story.name || 'Cerita'}" />
+        <h3>${story.name || 'Pengguna'}</h3>
         <p>${story.description}</p>
       `;
 
@@ -31,7 +33,18 @@ export default class StoryListView {
         }
       });
 
+      // Tombol Simpan (untuk IndexedDB)
+      const saveBtn = document.createElement('button');
+      saveBtn.innerText = 'Simpan';
+      saveBtn.className = 'save-button';
+      saveBtn.setAttribute('aria-label', `Simpan cerita dari ${story.name}`);
+      saveBtn.addEventListener('click', () => {
+        saveStory(story); // fungsi dari idb.js
+        alert(`Cerita dari ${story.name} disimpan ke perangkat!`);
+      });
+
       item.appendChild(deleteBtn);
+      item.appendChild(saveBtn);
       list.appendChild(item);
     });
 

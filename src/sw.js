@@ -3,7 +3,6 @@ import { precacheAndRoute } from 'workbox-precaching';
 // Ini penting: workbox akan mengisi array __WB_MANIFEST otomatis saat build
 precacheAndRoute(self.__WB_MANIFEST);
 
-// Event listener untuk push notification (jika kamu ingin gunakan push)
 self.addEventListener('push', event => {
   const data = event.data?.json() || {};
   const title = data.title || 'Notifikasi Baru';
