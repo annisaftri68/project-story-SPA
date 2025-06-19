@@ -3,11 +3,11 @@ import './router';
 import './register-sw.js';
 import { askNotificationPermission } from './utils/notification.js';
 
+// Notifikasi sambutan jika sudah diizinkan sebelumnya
 document.addEventListener('DOMContentLoaded', () => {
   if (Notification.permission === 'default') {
-    // Biarkan user klik manual
+    // Biarkan user klik manual (tombol di HTML)
   } else if (Notification.permission === 'granted') {
-    // Sudah granted sebelumnya, kirim notifikasi sambutan
     navigator.serviceWorker.ready.then(registration => {
       registration.showNotification('Selamat datang kembali!');
     });
@@ -45,10 +45,10 @@ if ('startViewTransition' in document) {
   });
 }
 
-// Trigger awal
+// Trigger awal route
 window.dispatchEvent(new CustomEvent('route-change'));
 
-// ✅ Aktifkan Push Notification
+// ✅ Aktifkan push notification otomatis (simulasi, tanpa backend)
 if ('Notification' in window && navigator.serviceWorker) {
   window.addEventListener('load', async () => {
     try {
@@ -59,9 +59,8 @@ if ('Notification' in window && navigator.serviceWorker) {
         if (!subscription) {
           await reg.pushManager.subscribe({
             userVisibleOnly: true,
-            // Simulasi saja, jika tidak pakai server push VAPID
             applicationServerKey: urlBase64ToUint8Array(
-              'BOr9BEXAMPLEKUNCI-VAPID-PUBLIC-DUMMY-NgxtUQo'
+              'BO2sxG0ve5rolN-RlnFRMe1wV-DzBfQQyFyDbrdHyWFOBrrTK_otP8_yC2aB6NCd5r4l-0-TsUFfsHYJV3TuIZ8'
             ),
           });
         }
@@ -72,7 +71,7 @@ if ('Notification' in window && navigator.serviceWorker) {
   });
 }
 
-// ✅ Helper untuk konversi VAPID key
+// Helper konversi VAPID Key
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding)

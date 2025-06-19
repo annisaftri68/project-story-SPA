@@ -1,4 +1,4 @@
-import { askNotificationPermission } from '../utils/pushNotif.js';
+import { askNotificationPermission } from '../utils/notification.js';
 
 export default class HomeView {
   constructor(container) {
