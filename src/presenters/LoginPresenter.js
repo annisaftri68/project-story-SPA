@@ -5,7 +5,8 @@ export default function LoginPresenter(container) {
   const view = new LoginForm();
 
   view.render(container, async ({ email, password }) => {
-    if (!email || !password) {
+    // Validasi input
+    if (!email.trim() || !password.trim()) {
       alert('Email dan password tidak boleh kosong.');
       return;
     }
@@ -14,6 +15,7 @@ export default function LoginPresenter(container) {
       const res = await login({ email, password });
       console.log('DEBUG LOGIN:', res);
 
+      // Validasi token dari response yang benar
       if (res?.error === false && res?.loginResult?.token) {
         localStorage.setItem('token', res.loginResult.token);
         alert('Login berhasil!');

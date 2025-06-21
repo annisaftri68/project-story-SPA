@@ -10,7 +10,7 @@ export default class HomeView {
       <div id="product-map"></div>
     `;
 
-    // Tambahkan event listener untuk tombol notifikasi
+    // Tombol aktivasi notifikasi
     document.getElementById('subscribeNotifBtn')?.addEventListener('click', () => {
       askNotificationPermission();
     });
@@ -26,6 +26,7 @@ export default class HomeView {
   showStories(stories) {
     const list = this.container.querySelector('#stories-container');
     list.innerHTML = '';
+
     stories.forEach(story => {
       const item = document.createElement('div');
       item.className = 'story-item';
@@ -33,7 +34,17 @@ export default class HomeView {
         <img src="${story.photoUrl || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${story.description}" />
         <h3>${story.name || 'Pengguna'}</h3>
         <p>${story.description}</p>
+        <button class="save-btn">Simpan</button>
       `;
+
+      // Event Simpan ke IndexedDB
+      item.querySelector('.save-btn').addEventListener('click', () => {
+        import('../utils/idb.js').then(({ idbPut }) => {
+          idbPut(story);
+          alert('Cerita disimpan ke Saved Stories!');
+        });
+      });
+
       list.appendChild(item);
     });
 
