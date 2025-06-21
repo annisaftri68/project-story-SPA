@@ -6,20 +6,22 @@ export default function AddStoryPresenter(container) {
   const view = new AddStoryForm();
   view.render(container, async (data) => {
     try {
-      let imageBlob = null;
-
-      if (data.image) {
-        const res = await fetch(data.image);
-        if (!res.ok) throw new Error('Gagal mengunduh gambar');
-        imageBlob = await res.blob();
+      // Validasi imageBlob dari AddStoryForm
+      if (!data.imageBlob) {
+        throw new Error('Foto tidak ditemukan atau tidak valid');
       }
 
       // Kirim ke API
-      await addStory({ ...data, imageBlob });
+      await addStory({
+        description: data.description,
+        lat: data.lat,
+        lng: data.lng,
+        imageBlob: data.imageBlob, // gunakan dari form
+      });
 
-      // Simpan ke IndexedDB (gunakan timestamp sebagai id unik)
+      // Simpan ke IndexedDB (opsional)
       await saveStory({
-        id: Date.now(), // ID unik, bisa diganti dengan ID dari API jika ada
+        id: Date.now(),
         description: data.description,
         lat: data.lat,
         lng: data.lng,
