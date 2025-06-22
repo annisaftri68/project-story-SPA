@@ -40,19 +40,25 @@ export default class AddStoryForm {
     let stream = null;
     let imageBlob = null;
 
-    // Aktifkan kamera
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(s => {
-        stream = s;
-        video.srcObject = stream;
-        video.style.display = 'block';
-      })
-      .catch(() => {
-        console.warn('Kamera tidak tersedia atau ditolak.');
-      });
+    // Aktifkan kamera jika didukung
+    if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(s => {
+          stream = s;
+          video.srcObject = stream;
+          video.style.display = 'block';
+        })
+        .catch(() => {
+          console.warn('Kamera tidak tersedia atau akses ditolak.');
+        });
+    } else {
+      console.warn('Browser tidak mendukung navigator.mediaDevices.getUserMedia');
+    }
 
     // Ambil foto dari kamera
     form.querySelector('#capture').addEventListener('click', () => {
+      if (!stream) return;
+
       canvas.classList.remove('hidden');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -61,7 +67,6 @@ export default class AddStoryForm {
 
       canvas.toBlob(blob => {
         imageBlob = blob;
-
         previewImg.src = canvas.toDataURL('image/jpeg');
         previewImg.classList.remove('hidden');
       }, 'image/jpeg');
@@ -83,7 +88,7 @@ export default class AddStoryForm {
       }
     });
 
-    // Map picker
+    // Peta lokasi
     import('../utils/mapPicker').then(({ default: pickCoordinates }) => {
       pickCoordinates(form.querySelector('#mapPicker'), (lat, lng) => {
         form.querySelector('#lat').value = lat;
@@ -91,6 +96,7 @@ export default class AddStoryForm {
       });
     });
 
+    // Submit form
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -124,7 +130,7 @@ export default class AddStoryForm {
       }
     });
 
-    // Pastikan kamera dimatikan saat berpindah halaman
+    // Matikan kamera saat berpindah halaman
     window.addEventListener('beforeunload', () => {
       if (stream) {
         stream.getTracks().forEach(t => t.stop());

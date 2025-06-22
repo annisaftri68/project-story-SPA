@@ -24,19 +24,26 @@ async function loadRoute() {
 
   let hash = window.location.hash || defaultRoute;
 
-  // Validasi token: jika tidak ada token & bukan halaman login/register => redirect
+  // Validasi token: jika tidak ada token & bukan halaman publik => redirect ke login
   const token = localStorage.getItem('token');
   const isPublicPage = ['#/login', '#/register'].includes(hash);
   if (!token && !isPublicPage) {
-    hash = '#/login';
-    window.location.hash = hash;
+    window.location.hash = '#/login';
+    return;
   }
 
-  const presenter = routes[hash] || ((container) => new NotFoundView().render(container));
   app.innerHTML = '';
-  presenter(app);
+
+  const presenter = routes[hash];
+  if (presenter) {
+    presenter(app);
+  } else {
+    const notFound = new NotFoundView();
+    notFound.render(app);
+  }
 }
 
+// View Transition API jika tersedia
 if ('startViewTransition' in document) {
   window.addEventListener('hashchange', () => {
     document.startViewTransition(loadRoute);

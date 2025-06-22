@@ -11,6 +11,7 @@ module.exports = {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    assetModuleFilename: 'assets/[hash][ext][query]', // ⬅️ untuk file gambar dll
   },
   mode: isProduction ? 'production' : 'development',
   module: {
@@ -24,24 +25,23 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // ⬅️ tambahkan ini
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
-    // ✅ Sisipkan HTML dan inject <script> otomatis
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: 'body',
     }),
-
-    // ✅ Copy file statis: manifest dan icons
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/manifest.json', to: 'manifest.json' },
         { from: 'src/icons', to: 'icons' },
       ],
     }),
-
-    // ✅ Tambahkan SW hanya saat production
     ...(isProduction
       ? [
           new WorkboxPlugin.InjectManifest({

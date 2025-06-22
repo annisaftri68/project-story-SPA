@@ -54,16 +54,16 @@ export async function fetchStories() {
 
 // Tambah cerita
 export async function addStory({ description, lat, lng, imageBlob }) {
-  const token = localStorage.getItem('token');
-  if (!token) throw new Error('Token tidak ditemukan. Silakan login.');
-
   const formData = new FormData();
+  formData.append('photo', imageBlob, 'photo.jpg'); // Wajib: nama = photo
   formData.append('description', description);
   formData.append('lat', lat);
-  formData.append('lon', lng);
-  formData.append('photo', imageBlob);
+  formData.append('lon', lng); // Wajib: lon (bukan lng)
 
-  const res = await fetch(`${BASE_URL}/stories`, {
+  const token = localStorage.getItem('token');
+  if (!token) throw new Error('Token login tidak ditemukan');
+
+  const response = await fetch('https://story-api.dicoding.dev/v1/stories', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -71,11 +71,10 @@ export async function addStory({ description, lat, lng, imageBlob }) {
     body: formData,
   });
 
-  const result = await res.json();
-
-  if (!res.ok) {
-    throw new Error(result.message || 'Gagal menambahkan cerita');
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.message || 'Gagal menambahkan cerita');
   }
 
-  return result;
+  return response.json();
 }
