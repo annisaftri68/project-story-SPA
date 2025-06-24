@@ -1,9 +1,16 @@
-<!doctype html><html lang="id"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#007bff"/><link rel="manifest" href="manifest.json"/><link rel="icon" href="icons/icon-192x192.png" sizes="192x192"/><link rel="apple-touch-icon" href="icons/icon-512x512.png"/><title>Galeri Cerita</title><link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/></head><body><a href="#main-content" class="skip-link">Langsung ke Konten</a><nav><a href="#/">Beranda</a> <a href="#/add">Tambah Cerita</a> <a href="#/saved">Saved Stories</a> <a href="#/login">Login</a> <a href="#/register">Daftar</a> <button id="subscribeNotifBtn">Aktifkan Notifikasi</button></nav><main id="main-content" tabindex="-1"><div id="app" role="main"></div></main><script src="https://unpkg.com/leaflet/dist/leaflet.js"></script><script>const skipLink = document.querySelector(".skip-link");
-      const mainContent = document.querySelector("#main-content");
+<!doctype html><html lang="id"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#6A5ACD"/><title>Galeri Cerita</title><link rel="icon" href="./icons/icon-192x192.png"/><link rel="apple-touch-icon" href="./icons/icon-192x192.png"/><link rel="manifest" href="./manifest.json"/><link rel="stylesheet" href="styles/main.css"/><style>html::view-transition-old(root),
+    html::view-transition-new(root) {
+      animation-duration: 0.4s;
+    }</style></head><body><a href="#main" class="skip-link">Skip to Content</a><header class="header"><h1 tabindex="0">Galeri Cerita</h1><nav><ul class="nav-links"><li><a href="#/">Beranda</a></li><li><a href="#/add">Tambah Cerita</a></li><li><a href="#/saved">Saved Stories</a></li><li><a href="#/login">Login</a></li><li><a href="#/register">Daftar</a></li></ul></nav></header><main id="app" tabindex="0" role="main"></main><footer class="footer"><p>&copy; 2025 Galeri Cerita</p><button id="notifBtn">Aktifkan Notifikasi</button></footer><noscript><p style="text-align:center;color:red">Aktifkan JavaScript untuk menggunakan aplikasi ini.</p></noscript><script type="module" src="app.js"></script><script>if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          console.log('Service Worker registered:', reg);
 
-      skipLink.addEventListener("click", function (event) {
-        event.preventDefault();
-        skipLink.blur();
-        mainContent.focus();
-        mainContent.scrollIntoView();
-      });</script><script defer="defer" src="bundle.1aa93961d01f23c87800.js"></script></body></html>
+          if (reg.waiting) {
+            console.log('Ada versi baru service worker yang menunggu untuk diaktifkan.');
+          }
+        }).catch(err => {
+          console.error('Service Worker gagal didaftarkan:', err);
+        });
+      });
+    }</script><script defer="defer" src="bundle.53dfe65d207694d90b2a.js"></script></body></html>
