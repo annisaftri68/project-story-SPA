@@ -1,6 +1,6 @@
 import StoryListView from '../views/StoryListView.js';
 import { fetchStories } from '../models/StoryModel.js';
-import { idbPut, idbGetAll, idbDelete } from '../models/idb.js';
+import { getAllSavedStories, deleteSavedStory } from '../services/indexedDB.js';
 import sleep from '../utils/sleep.js';
 
 export default async function HomePresenter(container) {
@@ -20,17 +20,13 @@ export default async function HomePresenter(container) {
     const result = await fetchStories();
     const stories = result.listStory;
 
-    // Simpan ke IndexedDB
-    for (const story of stories) {
-      await idbPut(story);
-    }
+    // Tidak lagi menyimpan otomatis ke IndexedDB di sini
 
-    // Tampilkan dari cache (IndexedDB)
-    const cached = await idbGetAll();
-    view.showStories(cached, handleDelete);
+    // Tampilkan data dari API
+    view.showStories(stories, handleDelete);
   } catch (err) {
     // Jika fetch gagal, tampilkan dari IndexedDB
-    const cached = await idbGetAll();
+    const cached = await getAllSavedStories();
     if (cached.length > 0) {
       view.showStories(cached, handleDelete);
     } else {
@@ -39,8 +35,8 @@ export default async function HomePresenter(container) {
   }
 
   async function handleDelete(id) {
-    await idbDelete(id);
-    const updated = await idbGetAll();
+    await deleteSavedStory(id);
+    const updated = await getAllSavedStories();
     view.showStories(updated, handleDelete);
   }
 }

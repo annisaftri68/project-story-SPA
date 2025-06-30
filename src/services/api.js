@@ -73,3 +73,42 @@ export async function addStory(data) {
 
   return result;
 }
+
+export const VAPID_PUBLIC_KEY = 'BCCs2eonMI-6H2ctvFaWg-UYdDv387Vno_bzUzALpB442r2lCnsHmtrx8biyPi_E-1fSGABK_Qs_GlvPoJJqxbk';
+
+// Ambil token dari localStorage
+export function getToken() {
+  return localStorage.getItem('token');
+}
+
+// Kirim subscription push ke backend dengan autentikasi token
+export async function subscribeWebPush(subscription) {
+  const token = getToken();
+  if (!token) throw new Error('Token tidak ditemukan. Silakan login.');
+
+  // Gunakan BASE_URL agar konsisten dengan endpoint lain
+  const url = `${BASE_URL}/notifications/subscribe`;
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(subscription),
+  });
+
+  let result;
+  try {
+    result = await res.json();
+  } catch (e) {
+    const text = await res.text();
+    console.error('[PushDebug] Response bukan JSON:', text);
+    throw new Error('Response dari backend bukan JSON. Cek endpoint backend.');
+  }
+
+  if (!res.ok) {
+    throw new Error(result.message || 'Gagal subscribe push notification');
+  }
+  return result;
+}

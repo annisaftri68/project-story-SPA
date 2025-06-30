@@ -3,12 +3,14 @@ import AddStoryPresenter from './presenters/AddStoryPresenter.js';
 import LoginPresenter from './presenters/LoginPresenter.js';
 import RegisterPresenter from './presenters/RegisterPresenter.js';
 import NotFoundView from './views/NotFoundView.js';
+import SavedStoryView from './views/SavedStory.js';
 
 const routes = {
   '#/': HomePresenter,
   '#/add': AddStoryPresenter,
   '#/login': LoginPresenter,
   '#/register': RegisterPresenter,
+  '#/save': (container) => new SavedStoryView().render(container),
 };
 
 const defaultRoute = '#/';

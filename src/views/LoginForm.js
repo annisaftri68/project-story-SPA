@@ -1,6 +1,7 @@
 export default class LoginForm {
   render(container, onSubmit) {
     const form = document.createElement('form');
+    form.className = 'login-form';
     form.innerHTML = `
       <h2>Login Akun</h2>
       <label for="email">Email</label>

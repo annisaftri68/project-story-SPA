@@ -1,6 +1,7 @@
 export default class RegisterForm {
   render(container, onSubmit) {
     const form = document.createElement('form');
+    form.className = 'register-form';
     form.innerHTML = `
       <h2>Daftar Akun Baru</h2>
 

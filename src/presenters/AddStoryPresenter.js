@@ -5,8 +5,7 @@ export default function AddStoryPresenter(container) {
   const view = new AddStoryForm();
   view.render(container, async (data) => {
     try {
-      const imageBlob = await fetch(data.image).then((res) => res.blob());
-      await addStory({ ...data, imageBlob });
+      await addStory(data);
       alert('Cerita berhasil ditambahkan!');
       window.location.hash = '#/';
     } catch (err) {

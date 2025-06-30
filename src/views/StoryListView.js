@@ -20,6 +20,18 @@ export default class StoryListView {
         <p>${story.description}</p>
       `;
 
+      // Tombol Simpan
+      const saveBtn = document.createElement('button');
+      saveBtn.innerText = 'Simpan';
+      saveBtn.className = 'save-button';
+      saveBtn.setAttribute('aria-label', `Simpan cerita dari ${story.name}`);
+      saveBtn.addEventListener('click', async () => {
+        const { saveStory } = await import('../services/indexedDB.js');
+        await saveStory(story);
+        alert('Cerita disimpan ke database lokal!');
+      });
+      item.appendChild(saveBtn);
+
       // Tombol Hapus
       const deleteBtn = document.createElement('button');
       deleteBtn.innerText = 'Hapus';
@@ -30,8 +42,8 @@ export default class StoryListView {
           onDelete(story.id);
         }
       });
-
       item.appendChild(deleteBtn);
+
       list.appendChild(item);
     });
 
