@@ -20,7 +20,7 @@ async function loadRoute() {
   // Stop camera jika masih aktif
   const video = document.querySelector('video');
   if (video && video._streamRef) {
-    const { default: stopCamera } = await import('./utils/stopCamera.js');
+    const { default: stopCamera } = await import('./utils/StopCamera.js');
     stopCamera(video);
   }
 
