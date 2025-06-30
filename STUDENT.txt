@@ -1,0 +1,5 @@
+APP_URL=https://webstory-spa.netlify.app/#/
+
+# Informasi Project
+Nama: Story SPA
+Deskripsi: Aplikasi website untuk berbagi cerita
